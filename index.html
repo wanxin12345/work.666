@@ -1,0 +1,268 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>10-17.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style>
+#box {
+	margin: 50px auto;
+	width: 310px;
+}
+#box div{
+	width: 300px;
+	height: 300px;
+	border: #000 1px solid;
+	display: none;
+	font-size: 50px;
+	line-height: 300px;
+	text-align: center;
+}
+
+.on {
+	background: red;
+	color: #fff;
+}
+a{
+text-decoration: none;
+font-size: 35px;
+}
+#ad {
+	width: 100%;
+	height: 300px;
+	background: red;
+}
+#box1 {
+	margin: 50px auto;
+	width: 310px;
+	position: absolute;
+	top: 40px;
+	left: 1300px;
+}
+#box1 div{
+	width: 300px;
+	height: 300px;
+	border: #000 1px solid;
+	display: none;
+	font-size: 50px;
+	line-height: 300px;
+	text-align: center;
+}
+
+.on1 {
+	background: red;
+	color: #fff;
+}
+
+</style>
+<script>
+//定时弹框:一秒
+setTimeout(function(){//隔一秒弹出,值弹出一次
+	alert('1');
+},1000);
+//setInterval(function(){//每隔一秒弹出,持续性弹出
+	//alert('1');
+//},1000);
+
+window.onload=function(){
+	//点击按钮弹出
+	(function(){
+		var oBtnn = document.getElementById('btn1');
+		oBtnn.onclick = function(){
+			alert(oBtnn.value);	
+		}		
+	})();
+	
+	(function(){
+		var oBtnn = document.getElementById('btn2');
+		oBtnn.onclick = function(){
+			alert(oBtnn.value);
+		}	
+	})();
+	//
+	var oBox = document.getElementById('box');
+	var oPrev = document.getElementById('prev');
+	var oNext = document.getElementById('next');
+	var aBtn = oBox.getElementsByTagName('input');
+	var aDiv = oBox.getElementsByTagName('div');
+	var iNow = 0;
+	var timer = null;
+	for(var i = 0; i < aBtn.length; i++){
+		aBtn[i].index = i;
+		aBtn[i].onclick = function(){
+			iNow = this.index;
+			tab();
+		}
+	}	
+	
+	function tab(){
+		for(var i = 0; i < aBtn.length; i++){
+			aBtn[i].className = '';
+			aDiv[i].style.display = 'none';	
+		}	
+		aBtn[iNow].className = 'on';
+		aDiv[iNow].style.display = 'block';	
+	}
+	//下一个按钮
+	oNext.onclick = next;
+	function next(){
+		iNow++;
+		if(iNow == aBtn.length){
+			iNow = 0;	
+		}
+		tab();
+	}
+	
+	oPrev.onclick = function(){
+		iNow--;
+		if(iNow == -1){
+			iNow = aBtn.length - 1;	
+		}	
+		tab();
+	}
+	//添加一个定时器
+	timer = setInterval(next,10);
+	
+	oBox.onmouseover = function(){
+		clearInterval(timer);	
+	}
+	
+	oBox.onmouseout = function(){
+		timer = setInterval(next,1000);	
+	}
+	
+	//点击弹出索引
+	var aBtnnn = document.getElementsByClassName('input');
+	
+	for(var i = 0; i < aBtnnn.length; i++){
+		//alert(i);//0,1,2
+		aBtnnn[i].index = i;
+		aBtnnn[i].onclick = function(){
+			alert(this.index);	
+		}
+	}
+	var oTxt = document.getElementById('textt');
+	var oBtn3 = document.getElementById('btn3');
+	var oBtn4 = document.getElementById('btn4');
+	var count = 0;
+	var timer = null;
+	
+	oBtn3.onclick = function(){
+		clearInterval(timer);
+		timer = setInterval(function(){
+			count++;
+			oTxt.value = addZero(parseInt(count/60)) + ':' + addZero(count%60);		
+		},100);
+	}
+	
+	oBtn4.onclick = function(){
+		clearInterval(timer);	
+	}
+	//模拟广告
+	var oDiv12=document.getElementById("ad");
+	setTimeout(function(){
+		oDiv12.style.display="none";
+	},2000)
+	//随机数
+	function rnd(x,y){
+		return parseInt(Math.random()*(y-x)+(x));
+	}
+	function addZero(n){
+		if(n<10){
+			return '0'+n;
+		}else{
+			return ''+n;
+		}
+	}
+	function findInarr(n,arr){
+		for(var i=0;i<arr.length;i++){
+			if(arr[i]==n){
+				return true;
+			}
+		}
+		return false;
+	}
+	var arr=[];
+	for(vai=0;i<6;i++){
+		var n=addZero(rnd(1,20));
+		if(findInarr(n,arr)==false){
+			arr.push(n);
+		}else{
+			i--;
+		}
+	}
+	alert(arr);
+	
+	//选项卡复习
+	var oBox1 = document.getElementById('box1');
+	var aBtn1 = oBox.getElementsByClassName('on1');
+	var aDiv1 = oBox.getElementsByClassName('down');
+	for(var i = 0; i < aBtn1.length; i++){
+		alert(i);//0,1,2
+		(function (index){
+			aBtn1[i].onclick = function(){
+				for(var i = 0; i < aBtn1.length; i++){
+					aBtn1[i].className = '';
+					aDiv1[i].style.display = 'none';	
+				}
+				this.className = 'on1';
+				aDiv1[index].style.display = 'block';
+			}	
+		})(i);	
+	}
+	
+}
+function addZero(n){
+	if(n < 10){
+		return '0' + n;
+	}else{
+		return '' + n;	
+	}
+}
+
+
+</script>
+</head>
+
+<body>
+<div id="box" align="center">
+<a href="javascript:;" id="prev">←</a>
+<input type="button" value="西瓜" class="on">
+<input type="button" value="冬瓜">
+<input type="button" value="南瓜">
+<a href="javascript:;" id="next">→</a>
+<div style="display: block;">西瓜</div><div>冬瓜</div><div>南瓜</div>
+</div>
+点击弹出<br>
+<input type="button" value="按钮1" id="btn1">
+<input type="button" value="按钮2" id="btn2"><br>
+点击弹出索引<br>
+<input type="button" value="按钮1" class="input">
+<input type="button" value="按钮2" class="input">
+<input type="button" value="按钮3" class="input"><br>
+秒表<br>
+<input type="text" value="" id="textt">
+<input type="button" value="开始" id="btn3">
+<input type="button" value="暂停" id="btn4"><br>
+模拟广告(自动消失)
+<div id="ad"></div><br>
+随机数(弹框处理)
+<br>
+<div id="box1">
+选项卡复习<br>
+<input type="button" value="胡萝卜" class="on1"/>
+<input type="button" value="白萝卜" class="on1"/>
+<input type="button" value="红萝卜" class="on1"/>
+<div style="display: block;" class="down">胡萝卜</div>
+<div class="down">白萝卜</div>
+<div class="down">红萝卜</div>
+</div>
+
+
+</body>
+</html>
